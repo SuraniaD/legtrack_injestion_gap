@@ -1,0 +1,13 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "sh -c 'python backfill_gaps.py --preflight && exec python backfill_gaps.py'"
+# A clean finish (exit 0) stops the service; a crash restarts it, and the
+# backfill resumes where it stopped.
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+# After the first full backfill finishes, uncomment to re-run every day
+# (UTC) and pick up only the bills that changed:
+# cronSchedule = "0 7 * * *"
